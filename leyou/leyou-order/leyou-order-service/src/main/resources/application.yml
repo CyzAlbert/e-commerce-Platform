@@ -1,0 +1,49 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: order-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.61:3306/leyou
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 10
+  rabbitmq:
+    host: 192.168.0.61
+    username: root
+    password: root
+    virtual-host: /leyou
+    template:
+      exchange: leyou.order.exchange
+    publisher-confirms: true
+  redis:
+    host: 192.168.0.61
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+leyou:
+  pay:
+    appId: 123456
+    matchId: 123456
+    key: 123456
+    connectTimeoutMs: 6
+  jwt:
+    secret: leyou@Login(Auth}*^31)&heiMa% # 登录校验的密钥
+    pubKeyPath: D:\\rsa\\rsa.pub # 公钥地址
+    priKeyPath: D:\\rsa\\rsa.pri # 私钥地址
+    expire: 30 # 过期时间,单位分钟
+    cookieName: LY_TOKEN
+    cookieMaxAge: 30
+  worker:
+    workerId: 6
+    dataCenterId: 6
